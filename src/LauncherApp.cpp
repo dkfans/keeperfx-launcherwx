@@ -91,6 +91,7 @@ bool LauncherApp::OnInit()
     frame = new LauncherFrame(_T("KeeperFX Launcher"));
 
     frame->CentreOnScreen(wxBOTH);
+    //frame->SetWindowStyleFlag(wxRESIZE_BORDER | wxCAPTION | wxBORDER_NONE);
 
     // and show it (the frames, unlike simple controls, are not shown when
     // created initially)

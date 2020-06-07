@@ -109,7 +109,7 @@ BEGIN_EVENT_TABLE(CommandOptions, wxDialog)
 END_EVENT_TABLE()
 
 CommandOptions::CommandOptions(wxFrame *parent)
-    : wxDialog (parent, -1, wxT("Command line options"), wxDefaultPosition, wxSize(460, 480))
+    : wxDialog (parent, -1, wxT("Command line options"), wxDefaultPosition, wxSize(480, 480), (wxRESIZE_BORDER | wxCAPTION | wxBORDER_NONE))
 
 {
     topsizer = new wxBoxSizer( wxVERTICAL );
