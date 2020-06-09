@@ -746,8 +746,8 @@ void GameSettings::writeConfiguration()
     size_t res_num,i;
     wxString strValue;
     conf->Write(wxT("INSTALL_PATH"), installPath);
-    conf->Write(wxT("INSTALL_TYPE"), installType);
-    conf->Write(wxT("KEYBOARD"), keybLayout);
+    //conf->Write(wxT("INSTALL_TYPE"), installType);
+    //conf->Write(wxT("KEYBOARD"), keybLayout);
     conf->Write(wxT("LANGUAGE"), supported_languages_code[langRadio->GetSelection()]);
     conf->Write(wxT("SCREENSHOT"), supported_scrshotfmt_code[scrshotRadio->GetSelection()]);
     strValue = wxString::Format(wxT("%s %s %s"), resFailCombo->GetValue(), resMovieCombo->GetValue(), resMenuCombo->GetValue());
