@@ -95,7 +95,7 @@ wxString supported_languages_text[] = {
     _T("Česky"),
     //_T("Arabic"),
     _T("Русский"),
-    _T("にほんご"),
+    _T("日本語"),
     _T("简化中国"),
     _T("傳統的中國"),
     //_T("Portuguese"),
@@ -679,8 +679,8 @@ void GameSettings::writeConfiguration()
     size_t res_num,i;
     wxString strValue;
     conf->Write(wxT("INSTALL_PATH"), installPath);
-    conf->Write(wxT("INSTALL_TYPE"), installType);
-    conf->Write(wxT("KEYBOARD"), keybLayout);
+    //conf->Write(wxT("INSTALL_TYPE"), installType);
+    //conf->Write(wxT("KEYBOARD"), keybLayout);
     conf->Write(wxT("LANGUAGE"), supported_languages_code[langRadio->GetSelection()]);
     conf->Write(wxT("SCREENSHOT"), supported_scrshotfmt_code[scrshotRadio->GetSelection()]);
     strValue = wxString::Format(wxT("%s %s %s"), resFailCombo->GetValue(), resMovieCombo->GetValue(), resMenuCombo->GetValue());
