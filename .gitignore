@@ -1,0 +1,12 @@
+/wx
+/bin
+/obj
+/pkg
+/res
+.vs/
+.settings*/
+build*/
+*.cache
+*.project
+.project
+*.prefs
