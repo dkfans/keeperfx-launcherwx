@@ -95,7 +95,7 @@ wxString supported_languages_text[] = {
     _T("Česky"),
     //_T("Arabic"),
     _T("Русский"),
-    _T("にほんご"),
+    _T("日本語"),
     _T("简化中国"),
     _T("傳統的中國"),
     //_T("Portuguese"),
