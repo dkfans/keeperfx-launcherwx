@@ -219,6 +219,11 @@ void wxCheckRadioBox::SetSelected(size_t max_selected, const wxString *sel_optio
             select_num++;
         }
     }
+    // Make sure that if limit is reached, that the Checkboxes remain disabled
+    if (select_num >= select_limit) 
+    {
+            SetAllUncheckedEnabled(false);
+    }
 }
 
 void wxCheckRadioBox::GetSelected(wxString *sel_options, size_t &sel_options_num)
