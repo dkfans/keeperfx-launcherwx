@@ -1,14 +1,9 @@
 Use either mingw32 or mingw-w64.
 
-Use mingw and msys, same as would work for keeperfx itself (to detail...)
-
-Download wxWidgets source and compile... (use wxWidgets-3.0.5, wxWidgets-3.1.4 does not create the needed setup.sh)
-
 As this is just a launcher, I recommend compiling static version of wxWidgets for it.
 Many features may be disabled:
 
-./configure CXXFLAGS="-ffunction-sections -fdata-sections" LDFLAGS="-Wl,--gc-sections" --disable-shared --disable-sockets --disable-http --disable-ftp --disable-protocols --disable-sound --disable-tarstream --disable-zipstream --disable-protocol --disable-mediactrl --disable-webview --enable-no_rtti --disable-debug --disable-gif --disable-pcx --disable-tga --disable-iff --disable-svg --without-libpng --without-libtiff
-
+./configure CXXFLAGS="-march=i686 -ffunction-sections -fdata-sections" LDFLAGS="-march=i686 -Wl,--gc-sections" --disable-shared --disable-sockets --disable-http --disable-ftp --disable-protocols --disable-sound --disable-tarstream --disable-zipstream --disable-protocol --disable-mediactrl --disable-webview --enable-no_rtti --disable-debug --disable-gif --disable-pcx --disable-tga --disable-iff --disable-svg --without-libpng --without-libtiff
 make BUILD=release UNICODE=1 SHARED=0
 
 After build is done:
@@ -17,5 +12,3 @@ After build is done:
 - copy file 'build/msw/config.gcc' to 'wx/config.gcc',
 
 Then, just use 'make all' to make the launcher.
-
-Make sure wxwidgets and the launcher are compiled with the same compiler to avoid compatability problems.
