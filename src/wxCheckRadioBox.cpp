@@ -176,6 +176,13 @@ void wxCheckRadioBox::SetAllUncheckedEnabled(bool nstate)
             rbCheckboxes[i]->Enable(nstate);
         }
     }
+    size_t norm_num = rbCheckboxes.size() - rbTextCtrls.size();
+    for (i=0; i < rbTextCtrls.size(); i++)
+    {
+        if (!rbCheckboxes[i+norm_num]->GetValue()) {
+            rbTextCtrls[i]->Enable(nstate);
+        }
+    }
 }
 
 void wxCheckRadioBox::SetSelected(size_t max_selected, const wxString *sel_options, size_t sel_options_num)
