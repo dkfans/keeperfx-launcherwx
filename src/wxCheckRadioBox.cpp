@@ -79,6 +79,7 @@ void wxCheckRadioBox::ClearOptionCheckboxes(void)
         delete *iter;
     }
     rbTextCtrls.clear();
+    rbPanel->GetSizer()->Clear(true);
     rbPanel->SetSizer(NULL);
 }
 
