@@ -173,19 +173,19 @@ wxString resolutions_movies_full_init[] = {
 };
 
 wxString resolutions_menu_full_init[] = {
-    _T("640x480x8"),
     _T("640x480x32"),
-    _T("1024x768x32"),
-    _T("1280x800x32"),
-    _T("1280x960x32"),
+    _T("1366x768x32"),
+    _T("1440x900x32"),
+    _T("1536x864x32"),
+    _T("1920x1080x32"),
 };
 
 wxString resolutions_failsafe_full_init[] = {
-    _T("320x200x8"),
-    _T("640x480x8"),
-    _T("320x200x32"),
     _T("640x480x32"),
-    _T("1024x768x32"),
+    _T("1366x768x32"),
+    _T("1440x900x32"),
+    _T("1536x864x32"),
+    _T("1920x1080x32"),
 };
 
 wxString resolutions_ingame_wind_init[] = {
@@ -214,27 +214,30 @@ wxString resolutions_ingame_wind_init[] = {
 };
 
 wxString resolutions_movies_wind_init[] = {
-    _T("320x200w8"),
-    _T("640x480w8"),
+    //_T("320x200w8"),
+    //_T("640x480w8"),
     _T("320x200w32"),
     _T("640x480w32"),
-    _T("1024x768w32"),
+    //_T("1024x768w32"),
+    _T("1366x768w32"),
+    _T("1536x864w32"),
+    _T("1920x1080w32"),
 };
 
 wxString resolutions_menu_wind_init[] = {
-    _T("640x480w8"),
     _T("640x480w32"),
-    _T("1024x768w32"),
-    _T("1280x800w32"),
-    _T("1280x960w32"),
+    _T("1366x768w32"),
+    _T("1440x900w32"),
+    _T("1536x864w32"),
+    _T("1920x1080w32"),
 };
 
 wxString resolutions_failsafe_wind_init[] = {
-    _T("320x200w8"),
-    _T("640x480w8"),
-    _T("320x200w32"),
     _T("640x480w32"),
-    _T("1024x768w32"),
+    _T("1366x768w32"),
+    _T("1440x900w32"),
+    _T("1536x864w32"),
+    _T("1920x1080w32"),
 };
 
 int optionIndexInArray(const wxString * arr, size_t arr_len, const wxString &option)
