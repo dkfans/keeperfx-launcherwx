@@ -38,8 +38,12 @@ class GameSettings : public wxDialog
     wxRadioBox * langRadio;
     wxRadioBox * scrshotRadio;
     wxRadioBox * scrnControlRadio;
+    wxRadioBox * atmosFrequencyRadio;
+    wxRadioBox * atmosVolumeRadio;
     wxTextCtrl * mouseSensitvTxtCtrl;
     wxCheckBox * censorChkBx;
+    wxCheckBox * resmovChkBx;
+    wxCheckBox * atmosChkBx;
     // Resolution boxes
     wxComboBox * resFailCombo;
     wxComboBox * resMovieCombo;
