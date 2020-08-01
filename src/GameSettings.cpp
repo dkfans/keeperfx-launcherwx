@@ -118,7 +118,7 @@ wxString supported_languages_text[] = {
 
 wxString tooltips_eng[] = {
     _T(""),
-    _T("Select up to four resolutions. Note that original resolutions are 320x200 and 640x400; select 640x480x32 for best gaming experience. Switch between selected resolutions by pressing Alt+R during the game."),//1
+    _T("Select up to four resolutions. Original resolutions are 320x200 and 640x400; Select the native resolution of your monitor, or something with the same aspect ratio. Switch between selected resolutions by pressing Alt+R during the game."),//1
     _T("Here you can type your own resolution. Use \"WIDTHxHEIGHTxCOLOUR\" scheme. Replace last \"x\" with \"w\" for windowed mode. You can select max. 4 resolutions."),//2
     _T("Screen resolution at which movies (ie. intro) will be played. Original is 320x200, and any higher resolution will make movie window smaller. Still, 640x480x32 is recommended, for compatibility."),
     _T("Screen resolution at which game menu is displayed. Original is 640x480 and it is recommended to select 640x480x32. Larger resolutions will make the menu smaller at center of the screen."),
