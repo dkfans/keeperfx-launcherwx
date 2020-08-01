@@ -53,6 +53,16 @@ wxString supported_scrshotfmt_text[] = {
     _T("HSI 'mhwanh' (RAW)"),
 };
 
+wxString lowmedhigh_code[] = {
+    _T("LOW"),
+    _T("MEDIUM"),
+    _T("HIGH"),
+};
+wxString lowmedhigh_text[] = {
+    _T("Low"),
+    _T("Medium"),
+    _T("High"),
+};
 wxString supported_languages_code[] = {
     _T("ENG"),
     _T("FRE"),
@@ -119,6 +129,10 @@ wxString tooltips_eng[] = {
     _T("Select whether the game should run in full screen, or as a window. Full screen is recommended. If you've chosen window, you may want to modify input options to disallow the game to control the mouse completely."),
     _T("Write changes to \"keeperfx.cfg\" file."),
     _T("Abandon changes and close the window."),
+    _T("Double the size of the cinematics (like the intro movie) from 320x200 to 640x400 pixels"),
+    _T("Enabling Atmospheric sounds will have the game play random background sound effects, like drips of water and screams of horror, to set the mood."),
+    _T("Change the volume of the Atmospheric sounds effects."),
+    _T("Change how often an Atmospheric sound effect is played."),
 };
 
 wxString resolutions_ingame_full_init[] = {
@@ -233,7 +247,7 @@ BEGIN_EVENT_TABLE(GameSettings, wxDialog)
 END_EVENT_TABLE()
 
 GameSettings::GameSettings(wxFrame *parent)
-    : wxDialog (parent, -1, wxT("Settings editor"), wxDefaultPosition, wxSize(480, 520), (wxRESIZE_BORDER | wxCAPTION | wxBORDER_NONE))
+    : wxDialog (parent, -1, wxT("Settings editor"), wxDefaultPosition, wxSize(530, 580), (wxRESIZE_BORDER | wxCAPTION | wxBORDER_NONE))
 
 {
     topsizer = new wxBoxSizer( wxVERTICAL );
@@ -276,7 +290,7 @@ GameSettings::GameSettings(wxFrame *parent)
     topsizer->Add(scrnControlRadio, 0, wxEXPAND);
 
     langRadio = new wxRadioBox( this, wxID_ANY, wxT("Language"), wxDefaultPosition, wxSize(-1, -1),
-        WXSIZEOF(supported_languages_text), supported_languages_text, 4, wxRA_SPECIFY_COLS);
+        WXSIZEOF(supported_languages_text), supported_languages_text, 5, wxRA_SPECIFY_COLS);
     langRadio->SetToolTip(tooltips_eng[6]);
     topsizer->Add(langRadio, 0, wxEXPAND);
 
@@ -290,6 +304,12 @@ GameSettings::GameSettings(wxFrame *parent)
             otherSettingsSizer->Add(censorChkBx, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
         }
         {
+        {
+            resmovChkBx = new wxCheckBox(this, wxID_ANY, wxT("Resize Movies (doubles the size)"));
+            resmovChkBx->SetToolTip(tooltips_eng[13]);
+            resmovChkBx->SetValue(false);
+            otherSettingsSizer->Add(resmovChkBx, 0, wxEXPAND | wxALL, 0);
+        }
             wxPanel *mouseSensitivityPanel = new wxPanel(this, wxID_ANY);
             wxBoxSizer *mouseSensitivityPanelSizer = new wxBoxSizer( wxHORIZONTAL );
             {
@@ -308,7 +328,31 @@ GameSettings::GameSettings(wxFrame *parent)
         }
         otherSettingsSizer->SetMinSize(386, 64);
     }
-    topsizer->Add(otherSettingsSizer, 0, wxEXPAND); // for wxStaticBox, we're adding sizer instead of the actual wxStaticBox instance
+    topsizer->Add(otherSettingsSizer, 0, wxEXPAND); // for wxStaticBox, we're adding sizer
+
+wxStaticBox *atmosSettingsBox = new wxStaticBox( this, wxID_ANY, wxT("Atmospheric sounds") );
+    wxStaticBoxSizer* atmosSettingsSizer = new wxStaticBoxSizer( atmosSettingsBox, wxHORIZONTAL );
+    {
+        
+        {
+            atmosChkBx = new wxCheckBox(this, wxID_ANY, wxT("Enable"));
+            atmosChkBx->SetToolTip(tooltips_eng[14]);
+            atmosChkBx->SetValue(false);
+            atmosSettingsSizer->Add(atmosChkBx, 0, wxALIGN_LEFT|wxEXPAND);
+        }
+        {
+            atmosFrequencyRadio = new wxRadioBox( this, wxID_ANY, wxT("Frequency"), wxDefaultPosition, wxDefaultSize,
+            WXSIZEOF(lowmedhigh_text), lowmedhigh_text, 3, wxRA_SPECIFY_COLS );
+            atmosFrequencyRadio->SetToolTip(tooltips_eng[16]);
+            atmosSettingsSizer->Add(atmosFrequencyRadio, 0, wxEXPAND);
+            atmosVolumeRadio = new wxRadioBox( this, wxID_ANY, wxT("Volume"), wxDefaultPosition, wxDefaultSize,
+            WXSIZEOF(lowmedhigh_text), lowmedhigh_text, 3, wxRA_SPECIFY_COLS );
+            atmosVolumeRadio->SetToolTip(tooltips_eng[15]);
+            atmosSettingsSizer->Add(atmosVolumeRadio, 0, wxEXPAND);
+        }
+        atmosSettingsSizer->SetMinSize(386, 64);
+    }
+    topsizer->Add(atmosSettingsSizer, 0, wxEXPAND); // for wxStaticBox, we're adding sizer instead of the actual wxStaticBox instance
 
     scrshotRadio = new wxRadioBox( this, wxID_ANY, wxT("Screenshots"), wxDefaultPosition, wxDefaultSize,
         WXSIZEOF(supported_scrshotfmt_text), supported_scrshotfmt_text, 2, wxRA_SPECIFY_COLS );
@@ -665,6 +709,18 @@ void GameSettings::readConfiguration()
     value = conf->Read(wxT("CENSORSHIP"), supported_boolean_code[0]);
     index = optionIndexInArray(supported_boolean_code, WXSIZEOF(supported_boolean_code), value);
     censorChkBx->SetValue((index>=0)?index:0);
+    value = conf->Read(wxT("RESIZE_MOVIES"), supported_boolean_code[0]);
+    index = optionIndexInArray(supported_boolean_code, WXSIZEOF(supported_boolean_code), value);
+    resmovChkBx->SetValue((index>=0)?index:0);
+    value = conf->Read(wxT("ATMOSPHERIC_SOUNDS"), supported_boolean_code[0]);
+    index = optionIndexInArray(supported_boolean_code, WXSIZEOF(supported_boolean_code), value);
+    atmosChkBx->SetValue((index>=0)?index:0);
+    value = conf->Read(wxT("ATMOS_FREQUENCY"), lowmedhigh_code[0]);
+    index = optionIndexInArray(lowmedhigh_code, WXSIZEOF(lowmedhigh_code), value);
+    atmosFrequencyRadio->SetSelection((index>=0)?index:0);
+    value = conf->Read(wxT("ATMOS_VOLUME"), lowmedhigh_code[0]);
+    index = optionIndexInArray(lowmedhigh_code, WXSIZEOF(lowmedhigh_code), value);
+    atmosVolumeRadio->SetSelection((index>=0)?index:0);
 }
 
 int GameSettings::verifyConfiguration()
@@ -695,6 +751,10 @@ void GameSettings::writeConfiguration()
     conf->Write(wxT("INGAME_RES"), strValue);
     conf->Write(wxT("POINTER_SENSITIVITY"), mouseSensitvTxtCtrl->GetValue());
     conf->Write(wxT("CENSORSHIP"), supported_boolean_code[censorChkBx->GetValue()]);
+    conf->Write(wxT("RESIZE_MOVIES"), supported_boolean_code[resmovChkBx->GetValue()]);
+    conf->Write(wxT("ATMOSPHERIC_SOUNDS"), supported_boolean_code[atmosChkBx->GetValue()]);
+    conf->Write(wxT("ATMOS_FREQUENCY"), lowmedhigh_code[atmosFrequencyRadio->GetSelection()]);
+    conf->Write(wxT("ATMOS_VOLUME"), lowmedhigh_code[atmosVolumeRadio->GetSelection()]);
     //conf->Save(); -- saving is automatic when the object is destroyed
 #undef MAX_RESOLUTIONS
 }
