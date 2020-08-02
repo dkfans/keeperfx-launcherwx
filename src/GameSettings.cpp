@@ -30,6 +30,7 @@
 #include <wx/fileconf.h>
 #include <wx/tokenzr.h>
 #include <wx/valnum.h>
+#include <wx/display.h>
 #include "wxCheckRadioBox.hpp"
 
 wxString supported_boolean_code[] = {
@@ -332,6 +333,9 @@ GameSettings::GameSettings(wxFrame *parent)
     topsizer->Add(dlgBottomPanel, 0, wxEXPAND);
 
     SetSizer(topsizer);
+	if (wxDisplay().GetGeometry().GetHeight() > 600) { // Defined pixels size are for 800x600, so don't adjust them with Fit(), use exactly what is defined above
+		Fit(); // Make sure, on Higher DPI settings, that the window is big enough for its contents
+	}
     Centre(wxBOTH);
 
 }
