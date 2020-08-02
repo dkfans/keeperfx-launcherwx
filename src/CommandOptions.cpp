@@ -133,6 +133,7 @@ CommandOptions::CommandOptions(wxFrame *parent)
     cmdFlagsBox->SetToolTip(options_tooltips_eng[3],options_tooltips_eng[3]);
     wxStaticBoxSizer* cmdFlagsBoxSizer = new wxStaticBoxSizer( cmdFlagsBox, wxHORIZONTAL );
     cmdFlagsBoxSizer->Add(cmdFlagsBox->rbPanel, 1, wxEXPAND); // for wxStaticBox, we're adding sizer instead of the actual wxStaticBox instance
+    cmdFlagsBoxSizer->SetMinSize(480, 189);
     topsizer->Add(cmdFlagsBoxSizer, 1, wxEXPAND);
 
     wxPanel *cmdOtherPanel = new wxPanel(this, wxID_ANY);
@@ -283,7 +284,7 @@ CommandOptions::CommandOptions(wxFrame *parent)
     topsizer->Add(dlgBottomPanel, 0, wxEXPAND);
 
     SetSizer(topsizer);
-	Fit();
+    Fit();
     Centre(wxBOTH);
 }
 
