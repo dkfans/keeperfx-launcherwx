@@ -240,7 +240,7 @@ void LauncherFrame::onInstall(wxCommandEvent& WXUNUSED(event))
         wxString msg =
             _T("The folder you've selected doesn't seem to contain files needed by KeeperFX.\n")
             _T("Please select the proper folder, or try with another release of Dungeon Keeper.\n")
-            _T("Note that you should select \"KEEPER\" folder from the CD; files installed on disk may not be enough.\n")
+            _T("When you use the CD you should select the \"KEEPER\" folder; for digital releases files installed to disk should be enough.\n")
             _T("\n")
             _T("List of problematic files:\n");
         nfailed = flCheck->getNumFailed();
