@@ -37,6 +37,7 @@ class GameSettings : public wxDialog
     wxBoxSizer * topsizer;
     wxRadioBox * langRadio;
     wxRadioBox * scrshotRadio;
+    wxRadioBox * wibbleRadio;
     wxRadioBox * scrnControlRadio;
     wxRadioBox * atmosFrequencyRadio;
     wxRadioBox * atmosVolumeRadio;
