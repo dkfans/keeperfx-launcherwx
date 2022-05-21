@@ -42,7 +42,7 @@ class GameSettings : public wxDialog
     wxRadioBox * atmosVolumeRadio;
     wxTextCtrl * mouseSensitvTxtCtrl;
     wxCheckBox * censorChkBx;
-    wxCheckBox * resmovChkBx;
+    wxComboBox * resmovComBx;
     wxCheckBox * atmosChkBx;
     // Resolution boxes
     wxComboBox * resFailCombo;

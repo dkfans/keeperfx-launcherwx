@@ -38,6 +38,16 @@ wxString supported_boolean_code[] = {
     _T("ON"),
 };
 
+wxString supported_movresz_code[] = {
+    _T("OFF"),
+    _T("ON"),
+    _T("FIT"),
+    _T("STRETCH"),
+    _T("CROP"),
+    _T("PIXELPERFECT"),
+    _T("4BY3"),
+    _T("4BY3PP"),
+};
 wxString supported_scrshotfmt_code[] = {
     _T("BMP"),
     _T("HSI"),
@@ -130,7 +140,7 @@ wxString tooltips_eng[] = {
     _T("Select whether the game should run in full screen, or as a window. Full screen is recommended. If you've chosen window, you may want to modify input options to disallow the game to control the mouse completely."),
     _T("Write changes to \"keeperfx.cfg\" file."),
     _T("Abandon changes and close the window."),
-    _T("Double the size of the cinematics (like the intro movie) from 320x200 to 640x400 pixels"),
+    _T("Resize the cinematics (like the intro movie) to fit the screen. Advanced options available in keeperfx.cfg."),
     _T("Enabling Atmospheric sounds will have the game play random background sound effects, like drips of water and screams of horror, to set the mood."),
     _T("Change the volume of the Atmospheric sounds effects."),
     _T("Change how often an Atmospheric sound effect is played."),
@@ -320,10 +330,10 @@ GameSettings::GameSettings(wxFrame *parent)
         }
         {
         {
-            resmovChkBx = new wxCheckBox(this, wxID_ANY, wxT("Resize Movies (doubles the size)"));
-            resmovChkBx->SetToolTip(tooltips_eng[13]);
-            resmovChkBx->SetValue(false);
-            otherSettingsSizer->Add(resmovChkBx, 0, wxEXPAND | wxALL, 0);
+            resmovComBx = new wxComboBox(this, wxID_ANY,1, wxDefaultPosition, wxDefaultSize, WXSIZEOF(supported_movresz_code), supported_movresz_code, wxCB_DROPDOWN, wxDefaultValidator,0);
+            resmovComBx->SetToolTip(tooltips_eng[13]);
+            resmovComBx->SetValue(false);
+            otherSettingsSizer->Add(resmovComBx, 0, wxEXPAND | wxALL, 0);
         }
             wxPanel *mouseSensitivityPanel = new wxPanel(this, wxID_ANY);
             wxBoxSizer *mouseSensitivityPanelSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -727,9 +737,9 @@ void GameSettings::readConfiguration()
     value = conf->Read(wxT("CENSORSHIP"), supported_boolean_code[0]);
     index = optionIndexInArray(supported_boolean_code, WXSIZEOF(supported_boolean_code), value);
     censorChkBx->SetValue((index>=0)?index:0);
-    value = conf->Read(wxT("RESIZE_MOVIES"), supported_boolean_code[0]);
-    index = optionIndexInArray(supported_boolean_code, WXSIZEOF(supported_boolean_code), value);
-    resmovChkBx->SetValue((index>=0)?index:0);
+    value = conf->Read(wxT("RESIZE_MOVIES"), supported_movresz_code[0]);
+    index = optionIndexInArray(supported_movresz_code, WXSIZEOF(supported_movresz_code), value);
+    resmovComBx->SetValue((index>=0)?index:0);
     value = conf->Read(wxT("ATMOSPHERIC_SOUNDS"), supported_boolean_code[0]);
     index = optionIndexInArray(supported_boolean_code, WXSIZEOF(supported_boolean_code), value);
     atmosChkBx->SetValue((index>=0)?index:0);
@@ -769,7 +779,7 @@ void GameSettings::writeConfiguration()
     conf->Write(wxT("INGAME_RES"), strValue);
     conf->Write(wxT("POINTER_SENSITIVITY"), mouseSensitvTxtCtrl->GetValue());
     conf->Write(wxT("CENSORSHIP"), supported_boolean_code[censorChkBx->GetValue()]);
-    conf->Write(wxT("RESIZE_MOVIES"), supported_boolean_code[resmovChkBx->GetValue()]);
+    conf->Write(wxT("RESIZE_MOVIES"), supported_movresz_code[resmovComBx->GetValue()]);
     conf->Write(wxT("ATMOSPHERIC_SOUNDS"), supported_boolean_code[atmosChkBx->GetValue()]);
     conf->Write(wxT("ATMOS_FREQUENCY"), lowmedhigh_code[atmosFrequencyRadio->GetSelection()]);
     conf->Write(wxT("ATMOS_VOLUME"), lowmedhigh_code[atmosVolumeRadio->GetSelection()]);
