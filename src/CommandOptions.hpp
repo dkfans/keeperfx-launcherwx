@@ -28,31 +28,29 @@ class wxCheckRadioBox;
 class CommandOptions : public wxDialog
 {
     enum {
-        eventID_ChangeOption = wxID_HIGHEST+10,
+        eventID_ChangeOption = wxID_HIGHEST + 10,
         eventID_CmdUpdate,
     };
 
-    wxBoxSizer * topsizer;
+    wxBoxSizer* topsizer;
 
-    wxTextCtrl *cmdLineCtrl;
-    wxRadioBox * execKindRadio;
-    wxCheckRadioBox * cmdFlagsBox;
-    wxCheckBox * gameSpeedChkBx;
-    wxTextCtrl * gameSpeedTxtCtrl;
-    wxCheckBox * humanPlayerChkBx;
-    wxTextCtrl * humanPlayerTxtCtrl;
-    wxCheckBox * vidDriverChkBx;
-    wxTextCtrl * vidDriverTxtCtrl;
-    wxCheckBox * netSessionsChkBx;
-    wxTextCtrl * netSessionsTxtCtrl;
-    wxRadioButton * packetActionNoRadio;
-    wxRadioButton * packetActionLdRadio;
-    wxRadioButton * packetActionSvRadio;
-    wxTextCtrl * packetFileTxtCtrl;
+    wxTextCtrl* cmdLineCtrl;
+    wxRadioBox* execKindRadio;
+    wxCheckRadioBox* cmdFlagsBox;
+    wxCheckBox* gameSpeedChkBx;
+    wxTextCtrl* gameSpeedTxtCtrl;
+    wxCheckBox* humanPlayerChkBx;
+    wxTextCtrl* humanPlayerTxtCtrl;
+    wxCheckBox* netSessionsChkBx;
+    wxTextCtrl* netSessionsTxtCtrl;
+    wxRadioButton* packetActionNoRadio;
+    wxRadioButton* packetActionLdRadio;
+    wxRadioButton* packetActionSvRadio;
+    wxTextCtrl* packetFileTxtCtrl;
 
 
 public:
-    CommandOptions(wxFrame *parent);
+    CommandOptions(wxFrame* parent);
     virtual ~CommandOptions();
 
     // event handlers
@@ -69,7 +67,7 @@ public:
     std::wstring getCommandLine(void);
 private:
     std::wstring optionsToCommandLine(void);
-    void commandLineToOptions(const std::wstring & cmdLn);
+    void commandLineToOptions(const std::wstring& cmdLn);
     void readOptionsFile(void);
     void storeOptionsFile(void);
     std::wstring storedCommandLine;

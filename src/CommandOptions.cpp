@@ -90,7 +90,6 @@ wxString options_tooltips_eng[] = {
     _T("Switches which you can enable or disable. Their function is explained in readme file. If you don't want to see the intro over and over again, select \"Skip intro\". If you're having problems with keyboard or mouse inside the game, select \"Alt. input\"."),//3
     _T("Gameplay speed. Increasing amount of turns per second will make the action faster. Note that you can temporarely unlock the speed limiter with Ctrl+'+'."),//4
     _T("Change human player ID. This allows you to play as blue, green or yellow keeper. Use this option for skirmish - single player levels won't work properly with it, unless they were especially designed for human to play as another keeper."),//5
-    _T("Set the video driver to be used by SDL library. Valid options on Windows host are 'directx' and 'windib'. Use this if your system is broken and most games do not work on it."),//6
     _T("Host/peer addresses required to join a TCP/IP game. See 'tcp_readme.txt' to get detailed instructions on making multiplayer work."),//7
     _T("Loads a previously created packet file. Starts the level for which packet file was created, and continues the gameplay. You may exit this mode by pressing Alt+X, or take over the control by pressing Alt+T."),//9
     _T("Writes a packet file (replay file) when playing. After using this option, you must start a new level and play it continuously to create the replay correctly. Exiting the level or loading will stop the writing process and truncate your replay file."),//8
@@ -100,154 +99,133 @@ wxString options_tooltips_eng[] = {
 };
 
 BEGIN_EVENT_TABLE(CommandOptions, wxDialog)
-    //EVT_CLOSE(CommandOptions::OnClose)
-    EVT_SHOW(CommandOptions::OnShow)
-    EVT_RADIOBOX(eventID_ChangeOption, CommandOptions::OnCmdRefresh)
-    EVT_RADIOBUTTON(eventID_ChangeOption, CommandOptions::OnCmdRefresh)
-    EVT_CHECKBOX(eventID_ChangeOption, CommandOptions::OnCmdRefresh)
-    EVT_BUTTON(eventID_CmdUpdate, CommandOptions::OnCmdUpdate)
+//EVT_CLOSE(CommandOptions::OnClose)
+EVT_SHOW(CommandOptions::OnShow)
+EVT_RADIOBOX(eventID_ChangeOption, CommandOptions::OnCmdRefresh)
+EVT_RADIOBUTTON(eventID_ChangeOption, CommandOptions::OnCmdRefresh)
+EVT_CHECKBOX(eventID_ChangeOption, CommandOptions::OnCmdRefresh)
+EVT_BUTTON(eventID_CmdUpdate, CommandOptions::OnCmdUpdate)
 END_EVENT_TABLE()
 
-CommandOptions::CommandOptions(wxFrame *parent)
-    : wxDialog (parent, -1, wxT("Command line options"), wxDefaultPosition, wxSize(480, 480), (wxRESIZE_BORDER | wxCAPTION | wxBORDER_NONE))
+CommandOptions::CommandOptions(wxFrame* parent)
+    : wxDialog(parent, -1, wxT("Command line options"), wxDefaultPosition, wxSize(480, 480), (wxRESIZE_BORDER | wxCAPTION | wxBORDER_NONE))
 
 {
-    topsizer = new wxBoxSizer( wxVERTICAL );
+    topsizer = new wxBoxSizer(wxVERTICAL);
 
-    wxStaticBox *cmdLineBox = new wxStaticBox(this, wxID_ANY, wxT("Command line") );
+    wxStaticBox* cmdLineBox = new wxStaticBox(this, wxID_ANY, wxT("Command line"));
     cmdLineBox->SetToolTip(options_tooltips_eng[1]);
     wxStaticBoxSizer* cmdLineBoxSizer = new wxStaticBoxSizer(cmdLineBox, wxHORIZONTAL);
     {
         cmdLineCtrl = new wxTextCtrl(cmdLineBox, wxID_ANY, options_exectype_code[0], wxDefaultPosition, wxDefaultSize);
         cmdLineCtrl->SetToolTip(options_tooltips_eng[1]);
-        cmdLineBoxSizer->Add(cmdLineCtrl, 1, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
+        cmdLineBoxSizer->Add(cmdLineCtrl, 1, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
     }
     topsizer->Add(cmdLineBoxSizer, 0, wxEXPAND);
 
-    execKindRadio = new wxRadioBox( this, eventID_ChangeOption, wxT("Executable file"), wxDefaultPosition, wxDefaultSize,
-        WXSIZEOF(options_exectype_text), options_exectype_text, 2, wxRA_SPECIFY_COLS );
+    execKindRadio = new wxRadioBox(this, eventID_ChangeOption, wxT("Executable file"), wxDefaultPosition, wxDefaultSize,
+        WXSIZEOF(options_exectype_text), options_exectype_text, 2, wxRA_SPECIFY_COLS);
     execKindRadio->SetToolTip(options_tooltips_eng[2]);
     topsizer->Add(execKindRadio, 0, wxEXPAND);
 
-    cmdFlagsBox = new wxCheckRadioBox(this, eventID_ChangeOption, wxT("Flags"), options_flags_code, options_flags_text, WXSIZEOF(options_flags_text), 0 );
-    cmdFlagsBox->SetToolTip(options_tooltips_eng[3],options_tooltips_eng[3]);
-    wxStaticBoxSizer* cmdFlagsBoxSizer = new wxStaticBoxSizer( cmdFlagsBox, wxHORIZONTAL );
+    cmdFlagsBox = new wxCheckRadioBox(this, eventID_ChangeOption, wxT("Flags"), options_flags_code, options_flags_text, WXSIZEOF(options_flags_text), 0);
+    cmdFlagsBox->SetToolTip(options_tooltips_eng[3], options_tooltips_eng[3]);
+    wxStaticBoxSizer* cmdFlagsBoxSizer = new wxStaticBoxSizer(cmdFlagsBox, wxHORIZONTAL);
     cmdFlagsBoxSizer->Add(cmdFlagsBox->rbPanel, 1, wxEXPAND); // for wxStaticBox, we're adding sizer instead of the actual wxStaticBox instance
     cmdFlagsBoxSizer->SetMinSize(480, 189);
     topsizer->Add(cmdFlagsBoxSizer, 1, wxEXPAND);
 
-    wxPanel *cmdOtherPanel = new wxPanel(this, wxID_ANY);
-    wxBoxSizer *cmdOtherPanelSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxPanel* cmdOtherPanel = new wxPanel(this, wxID_ANY);
+    wxBoxSizer* cmdOtherPanelSizer = new wxBoxSizer(wxHORIZONTAL);
     {
-        wxStaticBox *gameSpeedBox = new wxStaticBox( cmdOtherPanel, wxID_ANY, wxT("Game speed") );
-        wxStaticBoxSizer* gameSpeedSizer = new wxStaticBoxSizer( gameSpeedBox, wxVERTICAL );
+        wxStaticBox* gameSpeedBox = new wxStaticBox(cmdOtherPanel, wxID_ANY, wxT("Game speed"));
+        wxStaticBoxSizer* gameSpeedSizer = new wxStaticBoxSizer(gameSpeedBox, wxVERTICAL);
         {
             {
                 gameSpeedChkBx = new wxCheckBox(gameSpeedBox, eventID_ChangeOption, options_wparam_text[0]);
                 gameSpeedChkBx->SetToolTip(options_tooltips_eng[4]);
                 gameSpeedChkBx->SetValue(false);
-                gameSpeedSizer->Add(gameSpeedChkBx, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
+                gameSpeedSizer->Add(gameSpeedChkBx, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
             }
             {
                 wxIntegerValidator<long> gameSpeedVal(NULL, wxNUM_VAL_THOUSANDS_SEPARATOR);
-                gameSpeedVal.SetRange(1,10000);
+                gameSpeedVal.SetRange(1, 10000);
                 gameSpeedTxtCtrl = new wxTextCtrl(gameSpeedBox, eventID_ChangeOption, wxT("20"), wxDefaultPosition, wxSize(64, -1), 0, gameSpeedVal);
                 gameSpeedTxtCtrl->SetToolTip(options_tooltips_eng[4]);
-                gameSpeedSizer->Add(gameSpeedTxtCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL);
+                gameSpeedSizer->Add(gameSpeedTxtCtrl, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL);
                 gameSpeedTxtCtrl->Connect(wxEVT_KEY_UP, wxKeyEventHandler(CommandOptions::OnCmdKeyRefresh), NULL, this);
             }
         }
         cmdOtherPanelSizer->Add(gameSpeedSizer, 1, wxEXPAND); // for wxStaticBox, we're adding sizer instead of the actual wxStaticBox instance
 
-        wxStaticBox *humanPlayerBox = new wxStaticBox( cmdOtherPanel, wxID_ANY, wxT("Controlled players") );
-        wxStaticBoxSizer* humanPlayerSizer = new wxStaticBoxSizer( humanPlayerBox, wxVERTICAL );
+        wxStaticBox* humanPlayerBox = new wxStaticBox(cmdOtherPanel, wxID_ANY, wxT("Controlled players"));
+        wxStaticBoxSizer* humanPlayerSizer = new wxStaticBoxSizer(humanPlayerBox, wxVERTICAL);
         {
             {
                 humanPlayerChkBx = new wxCheckBox(humanPlayerBox, eventID_ChangeOption, options_wparam_text[1]);
                 humanPlayerChkBx->SetToolTip(options_tooltips_eng[5]);
                 humanPlayerChkBx->SetValue(false);
-                humanPlayerSizer->Add(humanPlayerChkBx, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
+                humanPlayerSizer->Add(humanPlayerChkBx, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
             }
             {
                 wxIntegerValidator<long> humanPlayerVal(NULL, wxNUM_VAL_THOUSANDS_SEPARATOR);
-                humanPlayerVal.SetRange(0,5);
+                humanPlayerVal.SetRange(0, 5);
                 humanPlayerTxtCtrl = new wxTextCtrl(humanPlayerBox, eventID_ChangeOption, wxT("0"), wxDefaultPosition, wxSize(64, -1), 0, humanPlayerVal);
                 humanPlayerTxtCtrl->SetToolTip(options_tooltips_eng[5]);
-                humanPlayerSizer->Add(humanPlayerTxtCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL);
+                humanPlayerSizer->Add(humanPlayerTxtCtrl, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL);
                 humanPlayerTxtCtrl->Connect(wxEVT_KEY_UP, wxKeyEventHandler(CommandOptions::OnCmdKeyRefresh), NULL, this);
             }
         }
         cmdOtherPanelSizer->Add(humanPlayerSizer, 1, wxEXPAND); // for wxStaticBox, we're adding sizer instead of the actual wxStaticBox instance
-
-        wxStaticBox *vidDriverBox = new wxStaticBox( cmdOtherPanel, wxID_ANY, wxT("SDL Video driver") );
-        wxStaticBoxSizer* vidDriverSizer = new wxStaticBoxSizer( vidDriverBox, wxVERTICAL );
-        {
-            {
-                vidDriverChkBx = new wxCheckBox(vidDriverBox, eventID_ChangeOption, options_wparam_text[2]);
-                vidDriverChkBx->SetToolTip(options_tooltips_eng[6]);
-                vidDriverChkBx->SetValue(false);
-                vidDriverSizer->Add(vidDriverChkBx, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
-            }
-            {
-                wxTextValidator vidDriverVal(wxFILTER_INCLUDE_CHAR_LIST, NULL);
-                vidDriverVal.SetCharIncludes(L"abcdefghijklmnopqrstuvwxyz0123456789-_");
-                vidDriverTxtCtrl = new wxTextCtrl(vidDriverBox, eventID_ChangeOption, wxT("directx"), wxDefaultPosition, wxSize(64, -1), 0, vidDriverVal);
-                vidDriverTxtCtrl->SetToolTip(options_tooltips_eng[6]);
-                vidDriverSizer->Add(vidDriverTxtCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL);
-                vidDriverTxtCtrl->Connect(wxEVT_KEY_UP, wxKeyEventHandler(CommandOptions::OnCmdKeyRefresh), NULL, this);
-            }
-        }
-        cmdOtherPanelSizer->Add(vidDriverSizer, 1, wxEXPAND); // for wxStaticBox, we're adding sizer instead of the actual wxStaticBox instance
-
         cmdOtherPanelSizer->SetMinSize(460, 64);
     }
     cmdOtherPanel->SetSizer(cmdOtherPanelSizer);
     topsizer->Add(cmdOtherPanel, 0, wxEXPAND);
 
-    wxPanel *cmdOther2Panel = new wxPanel(this, wxID_ANY);
-    wxBoxSizer *cmdOther2PanelSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxPanel* cmdOther2Panel = new wxPanel(this, wxID_ANY);
+    wxBoxSizer* cmdOther2PanelSizer = new wxBoxSizer(wxHORIZONTAL);
     {
-        wxStaticBox *netSessionsBox = new wxStaticBox( cmdOther2Panel, wxID_ANY, wxT("Multiplayer peers") );
-        wxStaticBoxSizer* netSessionsSizer = new wxStaticBoxSizer( netSessionsBox, wxVERTICAL );
+        wxStaticBox* netSessionsBox = new wxStaticBox(cmdOther2Panel, wxID_ANY, wxT("Multiplayer peers"));
+        wxStaticBoxSizer* netSessionsSizer = new wxStaticBoxSizer(netSessionsBox, wxVERTICAL);
         {
             {
                 netSessionsChkBx = new wxCheckBox(netSessionsBox, eventID_ChangeOption, options_wparam_text[3]);
                 netSessionsChkBx->SetToolTip(options_tooltips_eng[7]);
                 netSessionsChkBx->SetValue(false);
-                netSessionsSizer->Add(netSessionsChkBx, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
+                netSessionsSizer->Add(netSessionsChkBx, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
             }
             {
                 wxTextValidator netSessionsVal(wxFILTER_INCLUDE_CHAR_LIST, NULL);
                 netSessionsVal.SetCharIncludes(L"abcdefABCDEF0123456789-_.:/;");
                 netSessionsTxtCtrl = new wxTextCtrl(netSessionsBox, eventID_ChangeOption, wxT("192.168.1.1:5555"), wxDefaultPosition, wxSize(216, -1), 0, netSessionsVal);
                 netSessionsTxtCtrl->SetToolTip(options_tooltips_eng[7]);
-                netSessionsSizer->Add(netSessionsTxtCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL);
+                netSessionsSizer->Add(netSessionsTxtCtrl, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL);
                 netSessionsTxtCtrl->Connect(wxEVT_KEY_UP, wxKeyEventHandler(CommandOptions::OnCmdKeyRefresh), NULL, this);
             }
         }
         cmdOther2PanelSizer->Add(netSessionsSizer, 1, wxEXPAND); // for wxStaticBox, we're adding sizer instead of the actual wxStaticBox instance
 
-        wxStaticBox *packetFileBox = new wxStaticBox( cmdOther2Panel, wxID_ANY, wxT("Packet files") );
-        wxStaticBoxSizer* packetFileSizer = new wxStaticBoxSizer( packetFileBox, wxVERTICAL );
+        wxStaticBox* packetFileBox = new wxStaticBox(cmdOther2Panel, wxID_ANY, wxT("Packet files"));
+        wxStaticBoxSizer* packetFileSizer = new wxStaticBoxSizer(packetFileBox, wxVERTICAL);
         {
-            wxBoxSizer* packetActionSizer = new wxBoxSizer( wxHORIZONTAL );
+            wxBoxSizer* packetActionSizer = new wxBoxSizer(wxHORIZONTAL);
             {
                 packetActionNoRadio = new wxRadioButton(packetFileBox, eventID_ChangeOption, "None", wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
                 packetActionNoRadio->SetToolTip(options_tooltips_eng[10]);
                 packetActionNoRadio->SetValue(false);
-                packetActionSizer->Add(packetActionNoRadio, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
+                packetActionSizer->Add(packetActionNoRadio, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
             }
             {
                 packetActionLdRadio = new wxRadioButton(packetFileBox, eventID_ChangeOption, options_wparam_text[4]);
                 packetActionLdRadio->SetToolTip(options_tooltips_eng[8]);
                 packetActionLdRadio->SetValue(false);
-                packetActionSizer->Add(packetActionLdRadio, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
+                packetActionSizer->Add(packetActionLdRadio, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
             }
             {
                 packetActionSvRadio = new wxRadioButton(packetFileBox, eventID_ChangeOption, options_wparam_text[5]);
                 packetActionSvRadio->SetToolTip(options_tooltips_eng[9]);
                 packetActionSvRadio->SetValue(false);
-                packetActionSizer->Add(packetActionSvRadio, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
+                packetActionSizer->Add(packetActionSvRadio, 0, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
             }
             packetFileSizer->Add(packetActionSizer, 1, wxEXPAND); // for wxStaticBox, we're adding sizer instead of the actual wxStaticBox instance
 
@@ -256,7 +234,7 @@ CommandOptions::CommandOptions(wxFrame *parent)
                 packetFileVal.SetCharIncludes(L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-+_.:/\\[];");
                 packetFileTxtCtrl = new wxTextCtrl(packetFileBox, eventID_ChangeOption, wxT("reply.pck"), wxDefaultPosition, wxSize(216, -1), 0, packetFileVal);
                 packetFileTxtCtrl->SetToolTip(options_tooltips_eng[10]);
-                packetFileSizer->Add(packetFileTxtCtrl, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL);
+                packetFileSizer->Add(packetFileTxtCtrl, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL);
                 packetFileTxtCtrl->Connect(wxEVT_KEY_UP, wxKeyEventHandler(CommandOptions::OnCmdKeyRefresh), NULL, this);
             }
         }
@@ -267,15 +245,15 @@ CommandOptions::CommandOptions(wxFrame *parent)
     cmdOther2Panel->SetSizer(cmdOther2PanelSizer);
     topsizer->Add(cmdOther2Panel, 0, wxEXPAND);
 
-    wxPanel *dlgBottomPanel = new wxPanel(this, wxID_ANY);
-    wxBoxSizer *dlgBottomPanelSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxPanel* dlgBottomPanel = new wxPanel(this, wxID_ANY);
+    wxBoxSizer* dlgBottomPanelSizer = new wxBoxSizer(wxHORIZONTAL);
     {
         dlgBottomPanelSizer->AddStretchSpacer(1);
-        wxButton *saveBtn = new wxButton(dlgBottomPanel, wxID_OK, _T("&Store") );
+        wxButton* saveBtn = new wxButton(dlgBottomPanel, wxID_OK, _T("&Store"));
         //saveBtn->SetToolTip(tooltips_eng[10]);
         dlgBottomPanelSizer->Add(saveBtn, 0, wxEXPAND);
         dlgBottomPanelSizer->AddStretchSpacer(1);
-        wxButton *exitBtn = new wxButton(dlgBottomPanel, wxID_CANCEL, _T("&Cancel") );
+        wxButton* exitBtn = new wxButton(dlgBottomPanel, wxID_CANCEL, _T("&Cancel"));
         //exitBtn->SetToolTip(tooltips_eng[11]);
         dlgBottomPanelSizer->Add(exitBtn, 0, wxEXPAND);
         dlgBottomPanelSizer->AddStretchSpacer(1);
@@ -294,13 +272,13 @@ CommandOptions::~CommandOptions(void)
 
 std::wstring CommandOptions::optionsToCommandLine(void)
 {
-    wxString selected_flags[WXSIZEOF(options_flags_text)+1];
-    size_t sel_flags_num,i;
+    wxString selected_flags[WXSIZEOF(options_flags_text) + 1];
+    size_t sel_flags_num, i;
     std::wstring cmd = L"";
     cmd += options_exectype_code[execKindRadio->GetSelection()];
-    sel_flags_num = WXSIZEOF(options_flags_text)+1;
+    sel_flags_num = WXSIZEOF(options_flags_text) + 1;
     cmdFlagsBox->GetSelected(selected_flags, sel_flags_num);
-    for (i=0; i < sel_flags_num; i++) {
+    for (i = 0; i < sel_flags_num; i++) {
         cmd += L" ";
         cmd += selected_flags[i];
     }
@@ -315,12 +293,6 @@ std::wstring CommandOptions::optionsToCommandLine(void)
         cmd += options_wparam_code[1];
         cmd += L" ";
         cmd += humanPlayerTxtCtrl->GetValue();
-    }
-    if ((vidDriverChkBx->GetValue()) && (vidDriverTxtCtrl->GetValue().Length() > 0)) {
-        cmd += L" ";
-        cmd += options_wparam_code[2];
-        cmd += L" ";
-        cmd += vidDriverTxtCtrl->GetValue();
     }
     if ((netSessionsChkBx->GetValue()) && (netSessionsTxtCtrl->GetValue().Length() > 0)) {
         cmd += L" ";
@@ -343,7 +315,7 @@ std::wstring CommandOptions::optionsToCommandLine(void)
     return cmd;
 }
 
-std::vector<std::wstring> tokenize(const std::wstring& str,const std::wstring& delimiters)
+std::vector<std::wstring> tokenize(const std::wstring& str, const std::wstring& delimiters)
 {
     std::vector<std::wstring> tokens;
 
@@ -353,17 +325,17 @@ std::vector<std::wstring> tokenize(const std::wstring& str,const std::wstring& d
     // find first "non-delimiter".
     std::wstring::size_type pos = str.find_first_of(delimiters, lastPos);
 
-        while (std::wstring::npos != pos || std::wstring::npos != lastPos)
-        {
-            // found a token, add it to the vector.
-            tokens.push_back(str.substr(lastPos, pos - lastPos));
+    while (std::wstring::npos != pos || std::wstring::npos != lastPos)
+    {
+        // found a token, add it to the vector.
+        tokens.push_back(str.substr(lastPos, pos - lastPos));
 
-            // skip delimiters.  Note the "not_of"
-            lastPos = str.find_first_not_of(delimiters, pos);
+        // skip delimiters.  Note the "not_of"
+        lastPos = str.find_first_not_of(delimiters, pos);
 
-            // find next "non-delimiter"
-            pos = str.find_first_of(delimiters, lastPos);
-        }
+        // find next "non-delimiter"
+        pos = str.find_first_of(delimiters, lastPos);
+    }
 
     return tokens;
 }
@@ -371,9 +343,9 @@ std::vector<std::wstring> tokenize(const std::wstring& str,const std::wstring& d
 void CommandOptions::commandLineToOptions(const std::wstring& cmdln)
 {
     int exec_index;
-    wxString selected_flags[WXSIZEOF(options_flags_text)+1];
+    wxString selected_flags[WXSIZEOF(options_flags_text) + 1];
     size_t sel_flags_num;
-    wxString selected_wparams[WXSIZEOF(options_wparam_text)+1];
+    wxString selected_wparams[WXSIZEOF(options_wparam_text) + 1];
     std::wstring unrecognized;
     exec_index = 0;
     sel_flags_num = 0;
@@ -383,7 +355,7 @@ void CommandOptions::commandLineToOptions(const std::wstring& cmdln)
     // First item - executable name
     if (iter != tok.end())
     {
-        for (k = 0; k < sizeof(options_exectype_code)/sizeof(options_exectype_code[0]); k++)
+        for (k = 0; k < sizeof(options_exectype_code) / sizeof(options_exectype_code[0]); k++)
         {
             if (options_exectype_code[k].compare(*iter) == 0) {
                 exec_index = k;
@@ -395,7 +367,7 @@ void CommandOptions::commandLineToOptions(const std::wstring& cmdln)
     for (; iter != tok.end(); iter++)
     {
         bool recognized = false;
-        for (k = 0; k < sizeof(options_flags_code)/sizeof(options_flags_code[0]); k++)
+        for (k = 0; k < sizeof(options_flags_code) / sizeof(options_flags_code[0]); k++)
         {
             if (options_flags_code[k].compare(*iter) == 0) {
                 recognized = true;
@@ -405,7 +377,7 @@ void CommandOptions::commandLineToOptions(const std::wstring& cmdln)
             }
         }
         if (recognized) continue;
-        for (k = 0; k < sizeof(options_wparam_code)/sizeof(options_wparam_code[0]); k++)
+        for (k = 0; k < sizeof(options_wparam_code) / sizeof(options_wparam_code[0]); k++)
         {
             if (options_wparam_code[k].compare(*iter) == 0) {
                 recognized = true;
@@ -418,8 +390,8 @@ void CommandOptions::commandLineToOptions(const std::wstring& cmdln)
         unrecognized += L" ";
         unrecognized += *iter;
     }
-    execKindRadio->SetSelection((exec_index>=0)?exec_index:0);
-    cmdFlagsBox->SetSelected(WXSIZEOF(options_flags_text)+1, selected_flags, sel_flags_num);
+    execKindRadio->SetSelection((exec_index >= 0) ? exec_index : 0);
+    cmdFlagsBox->SetSelected(WXSIZEOF(options_flags_text) + 1, selected_flags, sel_flags_num);
     if (selected_wparams[0].length() > 0) {
         gameSpeedChkBx->SetValue(true);
         gameSpeedTxtCtrl->SetValue(selected_wparams[0]);
@@ -428,10 +400,6 @@ void CommandOptions::commandLineToOptions(const std::wstring& cmdln)
         humanPlayerChkBx->SetValue(true);
         humanPlayerTxtCtrl->SetValue(selected_wparams[1]);
     }
-    if (selected_wparams[2].length() > 0) {
-        vidDriverChkBx->SetValue(true);
-        vidDriverTxtCtrl->SetValue(selected_wparams[2]);
-    }
     if (selected_wparams[3].length() > 0) {
         netSessionsChkBx->SetValue(true);
         netSessionsTxtCtrl->SetValue(selected_wparams[3]);
@@ -439,13 +407,15 @@ void CommandOptions::commandLineToOptions(const std::wstring& cmdln)
     if (selected_wparams[4].length() > 0) {
         packetActionLdRadio->SetValue(true);
         packetFileTxtCtrl->SetValue(selected_wparams[4]);
-    } else
-    if (selected_wparams[5].length() > 0) {
-        packetActionSvRadio->SetValue(true);
-        packetFileTxtCtrl->SetValue(selected_wparams[5]);
-    } else {
-        packetActionNoRadio->SetValue(true);
     }
+    else
+        if (selected_wparams[5].length() > 0) {
+            packetActionSvRadio->SetValue(true);
+            packetFileTxtCtrl->SetValue(selected_wparams[5]);
+        }
+        else {
+            packetActionNoRadio->SetValue(true);
+        }
     unrecognizedOptions = unrecognized;
 }
 
@@ -455,18 +425,19 @@ void CommandOptions::readOptionsFile(void)
     wxString str;
     // open the file
     wxFileInputStream istrm(L"launch.sh");
-    wxTextInputStream text(istrm, wxT("\x09"), wxConvUTF8 );
-    while(istrm.IsOk() && !istrm.Eof() )
+    wxTextInputStream text(istrm, wxT("\x09"), wxConvUTF8);
+    while (istrm.IsOk() && !istrm.Eof())
     {
         str = text.ReadLine();
         // skip empty lines and comments
-        if ((str.length() > 1) && (str[0]!='#')) {
+        if ((str.length() > 1) && (str[0] != '#')) {
             break;
         }
     }
     if (str.length() > 1) {
         storedCommandLine = str.ToStdWstring();
-    } else {
+    }
+    else {
         storedCommandLine = optionsToCommandLine();
     }
 }
@@ -476,7 +447,7 @@ void CommandOptions::storeOptionsFile(void)
     wxString str;
     // open the file
     wxFileOutputStream ostrm(L"launch.sh");
-    wxTextOutputStream text(ostrm, wxEOL_NATIVE, wxConvUTF8 );
+    wxTextOutputStream text(ostrm, wxEOL_NATIVE, wxConvUTF8);
     if (!ostrm.IsOk()) {
         return;
     }
