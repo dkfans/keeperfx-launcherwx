@@ -134,17 +134,17 @@ wxString tooltips_eng[] = {
     _T(""),
     _T("Select up to four resolutions. Original resolutions are 320x200 and 640x400; Select the native resolution of your monitor, or something with the same aspect ratio. Switch between selected resolutions by pressing Alt+R during the game."),//1
     _T("Here you can type your own resolution. Use \"WIDTHxHEIGHTxCOLOUR\" scheme. Replace last \"x\" with \"w\" for windowed mode. You can select max. 4 resolutions."),//2
-    _T("Screen resolution at which movies (ie. intro) will be played. Original is 320x200, and any higher resolution will make movie window smaller. Still, 640x480x32 is recommended, for compatibility."),
-    _T("Screen resolution at which game menu is displayed. Original is 640x480 and it is recommended to select 640x480x32. Larger resolutions will make the menu smaller at center of the screen."),
-    _T("Resolution used in case of screen setup failure. If the game cannot enter one of the selected resolutions (ie. in-game resolution), it will try to fall back into this resolution. 640x480x32 is recommended."),
+    _T("Screen resolution at which movies (ie. intro) will be played. It is highly recommended to keep this the same as your ingame resolution."),
+    _T("Screen resolution at which game menu is displayed. It is highly recommended to keep this the same as your ingame resolution."),
+    _T("Resolution used in case of screen setup failure. If the game cannot enter one of the selected resolutions (ie. in-game resolution), it will try to fall back into this resolution. 1366x768w32 is recommended."),
     _T("Here you can select your language translation. This will affect the in-game messages, but also speeches during the game. Note that some campaigns may not support your language; in this case default one will be used."),
     _T("Enabling censorship will make only evil creatures to have blood, and will restrict death effect with exploding flesh. Originally, this was enabled in german language version."),
-    _T("Increasing sensitivity will speed up the mouse in the game. This may also make the mouse less accurate, so be careful! Default value is 100; you can increase or decrease it at your will, but sometimes it may be better to change this setting in your OS."),
+    _T("Increasing sensitivity will speed up the mouse in the game. This may also make the mouse less accurate, so be careful! Default value is 100; you can increase or decrease it at your will. Set it to 0 to disable the setting and use windows mouse speed instead."),
     _T("Captured screens can be saved in \"scrshots\" folder by pressing Shift+C during the game or inside menu. The HSI format isn't very popular nowadays, so you probably want to select BMP, as most graphics tools can open it."),
-    _T("Select whether the game should run in full screen, or as a window. Full screen is recommended. If you've chosen window, you may want to modify input options to disallow the game to control the mouse completely."),
+    _T("Select whether the game should run in full screen, or as a window. If you've chosen window, you may want to use the Alt.input run option and modify keeperfx.cfg directly to configure your preferred windowed behavior."),
     _T("Write changes to \"keeperfx.cfg\" file."),
     _T("Abandon changes and close the window."),
-    _T("Double the size of the cinematics (like the intro movie) from 320x200 to 640x400 pixels"),
+    _T("Resize the movies to fill the full screen. Edit keeperfx.cfg directly for different resize methods."),
     _T("Enabling Atmospheric sounds will have the game play random background sound effects, like drips of water and screams of horror, to set the mood."),
     _T("Change the volume of the Atmospheric sounds effects."),
     _T("Change how often an Atmospheric sound effect is played."),
@@ -335,7 +335,7 @@ GameSettings::GameSettings(wxFrame *parent)
         }
         {
         {
-            resmovChkBx = new wxCheckBox(this, wxID_ANY, wxT("Resize Movies (doubles the size)"));
+            resmovChkBx = new wxCheckBox(this, wxID_ANY, wxT("Resize Movies (fit to screen)"));
             resmovChkBx->SetToolTip(tooltips_eng[13]);
             resmovChkBx->SetValue(false);
             otherSettingsSizer->Add(resmovChkBx, 0, wxEXPAND | wxALL, 0);
