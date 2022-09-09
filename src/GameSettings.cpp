@@ -38,15 +38,9 @@ wxString supported_boolean_code[] = {
     _T("ON"),
 };
 
-/*wxString supported_scrshotfmt_code[] = {
+wxString supported_scrshotfmt_code[] = {
     _T("BMP"),
     _T("HSI"),
-};*/
-
-wxString supported_wibble_code[] = {
-    _T("ON"),
-    _T("OFF"),
-    _T("LIQUIDONLY"),
 };
 
 wxString screen_control_mode_text[] = {
@@ -55,18 +49,10 @@ wxString screen_control_mode_text[] = {
     _T("Mixed modes"),
 };
 
-
-wxString supported_wibble_text[] = {
-    _T("On"),
-    _T("Off"),
-    _T("Liquid Only"),
-};
-
-/*
 wxString supported_scrshotfmt_text[] = {
     _T("Windows bitmap (BMP)"),
     _T("HSI 'mhwanh' (RAW)"),
-};*/
+};
 
 wxString lowmedhigh_code[] = {
     _T("LOW"),
@@ -148,7 +134,6 @@ wxString tooltips_eng[] = {
     _T("Enabling Atmospheric sounds will have the game play random background sound effects, like drips of water and screams of horror, to set the mood."),
     _T("Change the volume of the Atmospheric sounds effects."),
     _T("Change how often an Atmospheric sound effect is played."),
-    _T("Wibble twists and turns the straight blocks making up the dungeon keeper world. Turn it off to get straight lines. Choose \"liquid only\" to still get waves in lava and water."),
 };
 
 wxString resolutions_ingame_full_init[] = {
@@ -384,17 +369,10 @@ wxStaticBox *atmosSettingsBox = new wxStaticBox( this, wxID_ANY, wxT("Atmospheri
     }
     topsizer->Add(atmosSettingsSizer, 0, wxEXPAND); // for wxStaticBox, we're adding sizer instead of the actual wxStaticBox instance
 
-    wibbleRadio = new wxRadioBox( this, wxID_ANY, wxT("Wibble cubes"), wxDefaultPosition, wxDefaultSize,
-        WXSIZEOF(supported_wibble_text), supported_wibble_text, 3, wxRA_SPECIFY_COLS );
-    wibbleRadio->SetToolTip(tooltips_eng[17]);
-    topsizer->Add(wibbleRadio, 0, wxEXPAND);
-
-    /*
-    scrshotRadio = new wxRadioBox(this, wxID_ANY, wxT("Screenshots"), wxDefaultPosition, wxDefaultSize,
-        WXSIZEOF(supported_scrshotfmt_text), supported_scrshotfmt_text, 2, wxRA_SPECIFY_COLS);
+    scrshotRadio = new wxRadioBox( this, wxID_ANY, wxT("Screenshots"), wxDefaultPosition, wxDefaultSize,
+        WXSIZEOF(supported_scrshotfmt_text), supported_scrshotfmt_text, 2, wxRA_SPECIFY_COLS );
     scrshotRadio->SetToolTip(tooltips_eng[9]);
     topsizer->Add(scrshotRadio, 0, wxEXPAND);
-    */
 
     wxPanel *dlgBottomPanel = new wxPanel(this, wxID_ANY);
     wxBoxSizer *dlgBottomPanelSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -673,13 +651,9 @@ void GameSettings::readConfiguration()
     index = optionIndexInArray(supported_languages_code, WXSIZEOF(supported_languages_code), value);
     langRadio->SetSelection((index>=0)?index:0);
 
-    /*value = conf->Read(wxT("SCREENSHOT"), supported_scrshotfmt_code[0]);
+    value = conf->Read(wxT("SCREENSHOT"), supported_scrshotfmt_code[0]);
     index = optionIndexInArray(supported_scrshotfmt_code, WXSIZEOF(supported_scrshotfmt_code), value);
-    scrshotRadio->SetSelection((index>=0)?index:0);*/
-
-    value = conf->Read(wxT("WIBBLE"), supported_wibble_code[0]);
-    index = optionIndexInArray(supported_wibble_code, WXSIZEOF(supported_wibble_code), value);
-    wibbleRadio->SetSelection((index >= 0) ? index : 0);
+    scrshotRadio->SetSelection((index>=0)?index:0);
 
     int res_full_num = 0, res_wind_num = 0;
     value = conf->Read(wxT("FRONTEND_RES"), wxT("640x480x32 640x480x32 640x480x32"));
@@ -782,8 +756,7 @@ void GameSettings::writeConfiguration()
     //conf->Write(wxT("INSTALL_TYPE"), installType);
     //conf->Write(wxT("KEYBOARD"), keybLayout);
     conf->Write(wxT("LANGUAGE"), supported_languages_code[langRadio->GetSelection()]);
-    //conf->Write(wxT("SCREENSHOT"), supported_scrshotfmt_code[scrshotRadio->GetSelection()]);
-    conf->Write(wxT("WIBBLE"), supported_wibble_code[wibbleRadio->GetSelection()]);
+    conf->Write(wxT("SCREENSHOT"), supported_scrshotfmt_code[scrshotRadio->GetSelection()]);
     strValue = wxString::Format(wxT("%s %s %s"), resFailCombo->GetValue(), resMovieCombo->GetValue(), resMenuCombo->GetValue());
     conf->Write(wxT("FRONTEND_RES"), strValue);
     res_num = MAX_RESOLUTIONS;
