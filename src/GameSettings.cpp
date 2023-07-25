@@ -40,7 +40,7 @@ wxString supported_boolean_code[] = {
 
 wxString supported_scrshotfmt_code[] = {
     _T("BMP"),
-    _T("HSI"),
+    _T("PNG"),
 };
 
 wxString screen_control_mode_text[] = {
@@ -51,7 +51,7 @@ wxString screen_control_mode_text[] = {
 
 wxString supported_scrshotfmt_text[] = {
     _T("Windows bitmap (BMP)"),
-    _T("HSI 'mhwanh' (RAW)"),
+    _T("Portable Network Graphics (PNG)"),
 };
 
 wxString lowmedhigh_code[] = {
@@ -126,7 +126,7 @@ wxString tooltips_eng[] = {
     _T("Here you can select your language translation. This will affect the in-game messages, but also speeches during the game. Note that some campaigns may not support your language; in this case default one will be used."),
     _T("Enabling censorship will make only evil creatures to have blood, and will restrict death effect with exploding flesh. Originally, this was enabled in german language version."),
     _T("Increasing sensitivity will speed up the mouse in the game. This may also make the mouse less accurate, so be careful! Default value is 100; you can increase or decrease it at your will. Set it to 0 to disable the setting and use windows mouse speed instead."),
-    _T("Captured screens can be saved in \"scrshots\" folder by pressing Shift+C during the game or inside menu. The HSI format isn't very popular nowadays, so you probably want to select BMP, as most graphics tools can open it."),
+    _T("Captured screens can be saved in \"scrshots\" folder by pressing Shift+C during the game or inside menu."),
     _T("Select whether the game should run in full screen, or as a window. If you've chosen window, you may want to use the Alt.input run option and modify keeperfx.cfg directly to configure your preferred windowed behavior."),
     _T("Write changes to \"keeperfx.cfg\" file."),
     _T("Abandon changes and close the window."),
