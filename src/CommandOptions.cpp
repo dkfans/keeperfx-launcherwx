@@ -78,7 +78,7 @@ wxString options_wparam_text[] = {
     _T("Set turns/sec."),
     _T("Set human id"),
     _T("Force driver"),
-    _T("Set TCP/IP sessions"),
+    _T("Set multiplayer sessions"),
     _T("Load"),
     _T("Save"),
 };
@@ -197,7 +197,7 @@ CommandOptions::CommandOptions(wxFrame* parent)
             {
                 wxTextValidator netSessionsVal(wxFILTER_INCLUDE_CHAR_LIST, NULL);
                 netSessionsVal.SetCharIncludes(L"abcdefABCDEF0123456789-_.:/;");
-                netSessionsTxtCtrl = new wxTextCtrl(netSessionsBox, eventID_ChangeOption, wxT("192.168.1.1:5555"), wxDefaultPosition, wxSize(216, -1), 0, netSessionsVal);
+                netSessionsTxtCtrl = new wxTextCtrl(netSessionsBox, eventID_ChangeOption, wxT("192.168.1.1:5556"), wxDefaultPosition, wxSize(216, -1), 0, netSessionsVal);
                 netSessionsTxtCtrl->SetToolTip(options_tooltips_eng[7]);
                 netSessionsSizer->Add(netSessionsTxtCtrl, 0, wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL);
                 netSessionsTxtCtrl->Connect(wxEVT_KEY_UP, wxKeyEventHandler(CommandOptions::OnCmdKeyRefresh), NULL, this);
