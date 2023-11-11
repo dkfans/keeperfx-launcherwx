@@ -43,7 +43,7 @@ wxString options_exectype_text[] = {
 
 wxString options_flags_code[] = {
     _T("-nointro"),
-    _T("-nocd"),
+    _T("-cd"),
     _T("-nosound"),
     _T("-usersfont"),
     _T("-alex"),
@@ -55,7 +55,7 @@ wxString options_flags_code[] = {
 
 wxString options_flags_text[] = {
     _T("Skip intro animation"),
-    _T("Music files instead of CD"),
+    _T("Use CD for Game Music"),
     _T("Disable sound"),
     _T("No AWE32/64 Banks"),
     _T("Allow Easter Egg"),
