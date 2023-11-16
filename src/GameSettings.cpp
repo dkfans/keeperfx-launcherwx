@@ -120,11 +120,11 @@ wxString supported_languages_text[] = {
 
 wxString tooltips_eng[] = {
     _T(""),
-    _T("Select up to four resolutions. Original resolutions are 320x200 and 640x400; Select the native resolution of your monitor, or something with the same aspect ratio. Switch between selected resolutions by pressing Alt+R during the game."),//1
-    _T("Here you can type your own resolution. Use \"WIDTHxHEIGHTxCOLOUR\" scheme. Replace last \"x\" with \"w\" for windowed mode. You can select max. 4 resolutions."),//2
+    _T("Select up to six resolutions. Original resolutions are 320x200 and 640x400; Select the native resolution of your monitor, or something with the same aspect ratio. Switch between selected resolutions by pressing Alt+R during the game."),//1
+    _T("Here you can type your own resolution. Use \"WIDTHxHEIGHTxCOLOUR\" scheme. Replace last \"x\" with \"w\" for windowed mode. You can select max. 6 resolutions."),//2
     _T("Screen resolution at which movies (ie. intro) will be played. It is highly recommended to keep this the same as your ingame resolution."),
     _T("Screen resolution at which game menu is displayed. It is highly recommended to keep this the same as your ingame resolution."),
-    _T("Resolution used in case of screen setup failure. If the game cannot enter one of the selected resolutions (ie. in-game resolution), it will try to fall back into this resolution. 1366x768w32 is recommended."),
+    _T("Resolution used in case of screen setup failure. If the game cannot enter one of the selected resolutions (ie. in-game resolution), it will try to fall back into this resolution."),
     _T("Here you can select your language translation. This will affect the in-game messages, but also speeches during the game. Note that some campaigns may not support your language; in this case default one will be used."),
     _T("Enabling censorship will make only evil creatures to have blood, and will restrict death effect with exploding flesh. Originally, this was enabled in german language version."),
     _T("Increasing sensitivity will speed up the mouse in the game. This may also make the mouse less accurate, so be careful! Default value is 100; you can increase or decrease it at your will. Set it to 0 to disable the setting and use windows mouse speed instead."),
