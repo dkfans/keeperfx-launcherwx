@@ -33,6 +33,8 @@
 #include <wx/display.h>
 #include "wxCheckRadioBox.hpp"
 
+#define MAX_RESOLUTIONS 6
+
 wxString supported_boolean_code[] = {
     _T("OFF"),
     _T("ON"),
@@ -118,11 +120,11 @@ wxString supported_languages_text[] = {
 
 wxString tooltips_eng[] = {
     _T(""),
-    _T("Select up to four resolutions. Original resolutions are 320x200 and 640x400; Select the native resolution of your monitor, or something with the same aspect ratio. Switch between selected resolutions by pressing Alt+R during the game."),//1
-    _T("Here you can type your own resolution. Use \"WIDTHxHEIGHTxCOLOUR\" scheme. Replace last \"x\" with \"w\" for windowed mode. You can select max. 4 resolutions."),//2
+    _T("Select up to six resolutions. Original resolutions are 320x200 and 640x400; Select the native resolution of your monitor, or something with the same aspect ratio. Switch between selected resolutions by pressing Alt+R during the game."),//1
+    _T("Here you can type your own resolution. Use \"WIDTHxHEIGHTxCOLOUR\" scheme. Replace last \"x\" with \"w\" for windowed mode. You can select max. 6 resolutions."),//2
     _T("Screen resolution at which movies (ie. intro) will be played. It is highly recommended to keep this the same as your ingame resolution."),
     _T("Screen resolution at which game menu is displayed. It is highly recommended to keep this the same as your ingame resolution."),
-    _T("Resolution used in case of screen setup failure. If the game cannot enter one of the selected resolutions (ie. in-game resolution), it will try to fall back into this resolution. 1366x768w32 is recommended."),
+    _T("Resolution used in case of screen setup failure. If the game cannot enter one of the selected resolutions (ie. in-game resolution), it will try to fall back into this resolution."),
     _T("Here you can select your language translation. This will affect the in-game messages, but also speeches during the game. Note that some campaigns may not support your language; in this case default one will be used."),
     _T("Enabling censorship will make only evil creatures to have blood, and will restrict death effect with exploding flesh. Originally, this was enabled in german language version."),
     _T("Increasing sensitivity will speed up the mouse in the game. This may also make the mouse less accurate, so be careful! Default value is 100; you can increase or decrease it at your will. Set it to 0 to disable the setting and use windows mouse speed instead."),
@@ -407,7 +409,6 @@ GameSettings::~GameSettings()
 
 void GameSettings::ChangeResolutionOptions(int scr_ctrl)
 {
-#define MAX_RESOLUTIONS 5
     {
         // Get previous values
         wxString resolutions[MAX_RESOLUTIONS];
@@ -449,9 +450,8 @@ void GameSettings::ChangeResolutionOptions(int scr_ctrl)
         resIngameBox->ClearOptionCheckboxes();
         resIngameBox->CreateOptionCheckboxes(arr_ptr, arr_ptr, arr_size, 3);
         // Select resolution values
-        resIngameBox->SetSelected(4, resolutions, res_num);
+        resIngameBox->SetSelected(MAX_RESOLUTIONS, resolutions, res_num);
     }
-#undef MAX_RESOLUTIONS
 
     {
         wxString * arr_ptr;
@@ -685,24 +685,19 @@ void GameSettings::readConfiguration()
 
     value = conf->Read(wxT("INGAME_RES"), wxT("640x480x32 1024x768x32"));
     {
-        wxString selected_resolutions[5];
+        wxString selected_resolutions[MAX_RESOLUTIONS];
         size_t selected_num;
-        wxString disabled_resolution;
         wxStringTokenizer tokenz(value, wxT(" \t\r\n"));
-        disabled_resolution = resFailCombo->GetValue();
         selected_num=0;
-        while ( tokenz.HasMoreTokens() && (selected_num < 5) )
+        while ( tokenz.HasMoreTokens() && (selected_num < MAX_RESOLUTIONS) )
         {
             wxString param = tokenz.GetNextToken();
             if (param.rfind('w') != wxString::npos)
                 res_wind_num++;
             else
                 res_full_num++;
-            if (param.CmpNoCase(disabled_resolution) != 0)
-            {
-                selected_resolutions[selected_num] = param;
-                selected_num++;
-            }
+            selected_resolutions[selected_num] = param;
+            selected_num++;
         }
         // Now we have the amount of fullscreen and windowed resolutions ready
         if ((res_wind_num > 0) && (res_full_num > 0))
@@ -716,7 +711,7 @@ void GameSettings::readConfiguration()
         ChangeResolutionOptions(index);
         Layout();
         // Set in-game resolutions
-        resIngameBox->SetSelected(4, selected_resolutions, selected_num);
+        resIngameBox->SetSelected(MAX_RESOLUTIONS, selected_resolutions, selected_num);
 
     }
 
@@ -748,7 +743,6 @@ int GameSettings::verifyConfiguration()
 
 void GameSettings::writeConfiguration()
 {
-#define MAX_RESOLUTIONS 5
     wxString resolutions[MAX_RESOLUTIONS];
     size_t res_num,i;
     wxString strValue;
@@ -761,8 +755,11 @@ void GameSettings::writeConfiguration()
     conf->Write(wxT("FRONTEND_RES"), strValue);
     res_num = MAX_RESOLUTIONS;
     resIngameBox->GetSelected(resolutions, res_num);
-    strValue = resFailCombo->GetValue();
-    for (i=0; i < res_num; i++) {
+    if (res_num == 0)
+        strValue = resFailCombo->GetValue();
+    else
+        strValue = resolutions[0];
+    for (i=1; i < res_num; i++) {
         strValue.Append(" ");
         strValue.Append(resolutions[i]);
     }
@@ -774,7 +771,6 @@ void GameSettings::writeConfiguration()
     conf->Write(wxT("ATMOS_FREQUENCY"), lowmedhigh_code[atmosFrequencyRadio->GetSelection()]);
     conf->Write(wxT("ATMOS_VOLUME"), lowmedhigh_code[atmosVolumeRadio->GetSelection()]);
     //conf->Save(); -- saving is automatic when the object is destroyed
-#undef MAX_RESOLUTIONS
 }
 
 
